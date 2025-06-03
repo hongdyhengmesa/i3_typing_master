@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/dfb28db673.js"
+      crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+</head>
+
+<body class="bg-gradient-to-r from-black to-gray-900 text-white">
+  <header class="fixed top-0 lef-0 z-50 flex w-full justify-between items-center px-16 py-8 ">
+    <div class="logo-container w-36 flex gap-2  items-center justify-center">
+      <div class="w-1/2 logo flex bg-black ">
+        <img src="movieMate.png" class="w-full" alt="">
+      </div>
+      <h1 class="logo-text font-bold text-[20px]">MovieMate</h1>
+    </div>
+
+    <!--Nav bar-->
+    <nav class=" bg-[] py-2 px-4 rounded-xl">
+      <ul class="flex gap-8 bg-[] items-center justify-between w-full">
+        <!--Home li-->
+        <li class="relative group">
+          <a href="#" class="hover:font-bold transition duration-200">Home
+            <span class="absolute bg-white left-0 bottom-0 top-6 w-0 h-[3px] group-hover:w-full transition-all text-black duration-300"></span>
+          </a>
+        </li>
+        <!--Genre li-->
+        <li class=" relative group">
+          <a href="#" class=" group-hover:font-bold transition duration-200 ">Genre 
+            <i class="fa-solid fa-chevron-down ml-1 text-sm group-hover:-translate-y-0.5 transition-all duration-200"></i>
+            <span class="absolute bg-white left-0 bottom-0 top-6 w-0 h-[3px] group-hover:w-full transition-all text-black duration-300"></span>
+          </a>
+          <ul class="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10">
+              <li class="px-4 py-2 hover:bg-gray-100"><a href="#">Action</a></li>
+              <li class="px-4 py-2 hover:bg-gray-100"><a href="#">Comedy</a></li>
+              <li class="px-4 py-2 hover:bg-gray-100"><a href="#">Drama</a></li>
+          </ul>
+        </li>
+          <li class=" relative group">
+          <a href="#" class=" group-hover:font-bold transition duration-200 ">Explore
+            <i class="fa-solid fa-chevron-down ml-1 text-sm group-hover:-translate-y-0.5 transition-all duration-200"></i>
+            <span class="absolute bg-white left-0 bottom-0 top-6 w-0 h-[3px] group-hover:w-full transition-all text-black duration-300"></span>
+          </a>
+          <ul class="absolute left-0 mt-2 w-40 bg-white text-black rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-10">
+            <li class="px-4 py-2 hover:bg-gray-100"><a href="#">Top Rated</a></li>
+            <li class="px-4 py-2 hover:bg-gray-100"><a href="#">Most Viewed</a></li>
+            <li class="px-4 py-2 hover:bg-gray-100"><a href="#">New Release</a></li>
+          </ul>
+        </li>
+        <li class="relative group">
+          <a href="#" class="group-hover:font-bold transition duration-200">Reviews</a>
+          <span class="absolute bg-white text-black left-0 bottom-0 top-6 w-0 h-[3px] group-hover:w-full transition-all duration-300"></span>
+        </li>
+        <li class="relative group">
+          <a href="#" class="group-hover:font-bold transition duration-200">Reviews</a>
+          <span class="absolute bg-white text-black left-0 bottom-0 top-6 w-0 h-[3px] group-hover:w-full transition-all duration-300"></span>
+        </li>
+        <!-- <li><a href="#">Top Rated</a></li> -->
+        <!-- <li><a href="#">New Releases</a></li> -->
+      </ul>
+    </nav>
+    <section class="flex items-center gap-8">
+      <div>
+        <i class="fa-solid fa-magnifying-glass text-white hover:text-gray-400 transition duration-300"></i>
+      </div>
+      <div class="user-info">
+        <button class="login-btn flex gap-4 items-center font-bold text-white bg-black px-4 py-2 rounded-md hover:bg-gray-800 transition duration-300">
+        <i class="fa-solid fa-user fill-red-30 hover:font-bold "></i>
+          <span>login</span>
+        </button>
+      </div> 
+    </section>
+    
+    
+  
+  </header>
+  <main class="  flex flex-col py-16 bg-cover bg-center mt-[120px] h-screen ">
+    <!-- <section class="flex justify-center flex-col text-white items-center px-4 mt-16">
+      <h1 class="text-[28px] sm:text-[36px] font-bold  mb-8 animate-wiggle ">START WATCHING NOW</h1>
+      <div class="relative w-full max-w-2xl">
+        
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </div>
+
+        <input 
+          type="text" 
+          placeholder="Search for movies, genres, or actors..." 
+          class="w-full pl-12 pr-4 py-3 rounded-full bg-white/5 text-white placeholder:text-gray-400 
+                border border-white/10 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-white/30 
+                focus:border-transparent transition duration-300"
+        />
+
+        <button 
+          class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white font-bold 
+                 px-5 py-2 rounded-full transition duration-300">
+          Search
+        </button>
+      </div>
+    </section> -->
+<!-- </section> -->
+  <section class="bg-[url('/Project_movieMate/img/avatar.png')] bg-cover bg-center h-screen flex items-center justify-center relative mx-16">
+    <div>
+      <button>Watch</button>
+    </div>
+    
+  </section>
+
+
+  </main>
+</body>
+</html>
