@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Results - i3 Typing Master</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-keyboard"></i></div>
+                <div class="logo-text">i3 Typing Master</div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="typing-test.html">Typing Test</a></li>
+                    <li><a href="results.html" class="active">Results</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons" id="auth-buttons">
+                <!-- Auth buttons by auth.js -->
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="results-page-container" class="page-section"> <!-- Wrapper ID for results.js -->
+            <div class="card">
+                <h2 class="page-title">Your Typing Test Results</h2>
+                
+                <div class="stats-grid">
+                    <!-- Stats cards will be populated by results.js -->
+                </div>
+                
+                <div id="results-message-area" class="text-center" style="margin: 20px 0;">
+                    <!-- Messages like "Please log in" or "No results" by results.js -->
+                </div>
+
+                <h3>Recent Test History</h3>
+                <div style="overflow-x: auto;"> <!-- For responsive tables -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>WPM</th>
+                                <th>Accuracy</th>
+                                <th>Errors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows will be populated by results.js -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="text-center mt-20">
+                    <a href="typing-test.html" class="btn btn-accent">Take Another Test</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script src="auth.js"></script>
+    <script src="results.js"></script>
+    <script>
+        // Add active class to current page link in nav
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            document.querySelectorAll('nav ul li a').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
