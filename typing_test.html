@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test - SpeedType</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .typing-test-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .timer, .wpm-counter {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .test-text {
+            background-color: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .test-text span {
+            position: relative;
+        }
+
+        .test-text span.current {
+            background-color: #d3e3fd;
+        }
+
+        .test-text span.correct {
+            color: var(--secondary-color);
+        }
+
+        .test-text span.incorrect {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .test-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .test-difficulty {
+            margin-bottom: 1.5rem;
+        }
+
+        .test-difficulty label {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">SpeedType</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="typing_test.html" class="active">Typing Test</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="typing-test-container">
+        <h2>Typing Test</h2>
+        
+        <div class="test-difficulty">
+            <label>Select Difficulty:</label>
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+
+        <div class="test-controls">
+            <div class="timer">Time: <span id="time">60</span>s</div>
+            <div class="wpm-counter">WPM: <span id="wpm">0</span></div>
+        </div>
+
+        <div class="test-text" id="testText">
+            The quick brown fox jumps over the lazy dog. This sentence contains all the letters in the English alphabet.
+        </div>
+
+        <textarea 
+            class="test-input" 
+            id="testInput" 
+            placeholder="Start typing here..." 
+            autofocus
+        ></textarea>
+
+        <div class="test-actions">
+            <button class="btn primary" id="restartBtn">Restart</button>
+            <button class="btn secondary" id="newTextBtn">New Text</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 SpeedType. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Sample texts for different difficulty levels
+        const sampleTexts = {
+            easy: [
+                "The quick brown fox jumps over the lazy dog.",
+                "Pack my box with five dozen liquor jugs.",
+                "How vexingly quick daft zebras jump!"
+            ],
+            medium: [
+                "The five boxing wizards jump quickly. This sentence is often used for typing practice as it contains all the letters of the alphabet.",
+                "Typing is the process of writing or inputting text by pressing keys on a typewriter, computer keyboard, or touchscreen.",
+                "Improving your typing speed and accuracy takes consistent practice over time. Regular practice can help you become more efficient."
+            ],
+            hard: [
+                "The juxtaposition of quantum mechanics and general relativity presents one of the most profound challenges in contemporary theoretical physics, with string theory emerging as a potential framework for unification, though empirical validation remains elusive given current technological constraints.",
+                "Cryptocurrency represents a paradigm shift in financial systems, leveraging blockchain technology to enable decentralized, trustless transactions, yet faces significant scalability issues and regulatory hurdles that must be addressed for mainstream adoption.",
+                "Neuroscientific research into neuroplasticity has revolutionized our understanding of the brain's capacity to reorganize itself by forming new neural connections throughout life, challenging the long-held belief that the adult brain is relatively fixed in its structure and function."
+            ]
+        };
+
+        // DOM elements
+        const testTextElement = document.getElementById('testText');
+        const testInputElement = document.getElementById('testInput');
+        const timeElement = document.getElementById('time');
+        const wpmElement = document.getElementById('wpm');
+        const restartBtn = document.getElementById('restartBtn');
+        const newTextBtn = document.getElementById('newTextBtn');
+        const difficultySelect = document.getElementById('difficulty');
+
+        // Test variables
+        let timer;
+        let timeLeft = 60;
+        let isTestRunning = false;
+        let startTime;
+        let correctCharacters = 0;
+        let totalCharacters = 0;
+
+        // Initialize the test
+        function initTest() {
+            // Get a random text based on difficulty
+            const difficulty = difficultySelect.value;
+            const texts = sampleTexts[difficulty];
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            
+            // Display the text with spans for each character
+            testTextElement.innerHTML = '';
+            randomText.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                testTextElement.appendChild(span);
+            });
+            
+            // Reset variables
+            timeLeft = 60;
+            isTestRunning = false;
+            correctCharacters = 0;
+            totalCharacters = 0;
+            
+            // Update UI
+            timeElement.textContent = timeLeft;
+            wpmElement.textContent = '0';
+            testInputElement.value = '';
+            testInputElement.focus();
+            
+            // Highlight first character
+            const firstChar = testTextElement.querySelector('span');
+            if (firstChar) firstChar.classList.add('current');
+        }
+
+        // Start the test timer
+        function startTest() {
+            if (isTestRunning) return;
+            
+            isTestRunning = true;
+            startTime = new Date().getTime();
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                timeElement.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    endTest();
+                }
+            }, 1000);
+        }
+
+        // End the test
+        function endTest() {
+            clearInterval(timer);
+            isTestRunning = false;
+            testInputElement.disabled = true;
+            
+            // Calculate WPM
+            const endTime = new Date().getTime();
+            const timeInMinutes = (endTime - startTime) / 60000;
+            const wpm = Math.round((correctCharacters / 5) / timeInMinutes);
+            wpmElement.textContent = wpm;
+            
+            // Save results (in a real app, this would go to a database)
+            const results = {
+                wpm: wpm,
+                accuracy: Math.round((correctCharacters / totalCharacters) * 100),
+                time: 60 - timeLeft,
+                date: new Date().toISOString()
+            };
+            
+            localStorage.setItem('lastTestResults', JSON.stringify(results));
+            
+            // Show results after a delay
+            setTimeout(() => {
+                window.location.href = 'results.html';
+            }, 1500);
+        }
+
+        // Handle text input
+        testInputElement.addEventListener('input', (e) => {
+            if (!isTestRunning) {
+                startTest();
+            }
+            
+            const inputText = e.target.value;
+            const textSpans = testTextElement.querySelectorAll('span');
+            
+            // Reset all spans
+            textSpans.forEach(span => {
+                span.classList.remove('current', 'correct', 'incorrect');
+            });
+            
+            // Check each character
+            let allCorrect = true;
+            totalCharacters = inputText.length;
+            
+            for (let i = 0; i < textSpans.length; i++) {
+                if (i < inputText.length) {
+                    if (inputText[i] === textSpans[i].textContent) {
+                        textSpans[i].classList.add('correct');
+                        if (i === inputText.length - 1) {
+                            textSpans[i].classList.add('current');
+                        }
+                    } else {
+                        textSpans[i].classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                } else if (i === inputText.length) {
+                    textSpans[i].classList.add('current');
+                }
+            }
+            
+            // Update correct characters count
+            correctCharacters = 0;
+            for (let i = 0; i < inputText.length; i++) {
+                if (inputText[i] === textSpans[i].textContent) {
+                    correctCharacters++;
+                }
+            }
+            
+            // Calculate and display WPM
+            const currentTime = new Date().getTime();
+            const timeInMinutes = (currentTime - startTime) / 60000;
+            const wpm = Math.round((correctCharacters / 5) / timeInMinutes);
+            wpmElement.textContent = wpm;
+            
+            // End test if all characters are correct
+            if (inputText.length === textSpans.length && allCorrect) {
+                endTest();
+            }
+        });
+
+        // Event listeners for buttons
+        restartBtn.addEventListener('click', initTest);
+        newTextBtn.addEventListener('click', initTest);
+        difficultySelect.addEventListener('change', initTest);
+
+        // Initialize the test on page load
+        initTest();
+    </script>
+</body>
+</html>
